@@ -1,19 +1,20 @@
-use diesel::pg::PgConnection;
-use r2d2;
-use r2d2_diesel::ConnectionManager;
-use rocket::http::Status;
-use rocket::request::{self, FromRequest};
-use rocket::{Outcome, Request, State};
 use std::ops::Deref;
 
-pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
+use diesel::SqliteConnection;
+use r2d2;
+use r2d2_diesel::ConnectionManager;
+use rocket::{Outcome, Request, State};
+use rocket::http::Status;
+use rocket::request::{self, FromRequest};
+
+pub type Pool = r2d2::Pool<ConnectionManager<SqliteConnection>>;
 
 pub fn init_pool(db_url: String) -> Pool {
-    let manager = ConnectionManager::<PgConnection>::new(db_url);
+    let manager = ConnectionManager::<SqliteConnection>::new(db_url);
     r2d2::Pool::new(manager).expect("db pool failure")
 }
 
-pub struct Conn(pub r2d2::PooledConnection<ConnectionManager<PgConnection>>);
+pub struct Conn(pub r2d2::PooledConnection<ConnectionManager<SqliteConnection>>);
 
 impl<'a, 'r> FromRequest<'a, 'r> for Conn {
     type Error = ();
@@ -28,7 +29,7 @@ impl<'a, 'r> FromRequest<'a, 'r> for Conn {
 }
 
 impl Deref for Conn {
-    type Target = PgConnection;
+    type Target = SqliteConnection;
 
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
