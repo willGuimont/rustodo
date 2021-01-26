@@ -17,7 +17,6 @@ pub struct Todo {
 }
 
 #[derive(Debug, Serialize, Deserialize, Insertable)]
-// #[derive(Serialize, Deserialize, <todos as Trait>::table)]
 #[table_name = "todos"]
 pub struct NewTodo {
     #[column_name = "message"]
