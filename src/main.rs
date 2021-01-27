@@ -41,39 +41,3 @@ fn rocket() -> rocket::Rocket {
 fn main() {
     rocket().launch();
 }
-//
-// use rocket::Request;
-//
-// use self::diesel::prelude::*;
-// use self::models::*;
-// use self::rustodo::*;
-//
-// #[database("todos")]
-// struct TodosDbConn(diesel::SqliteConnection);
-//
-// #[get("/todos")]
-// fn get_todos(connection: TodosDbConn) -> &'static str {
-//     use rustodo::schema::todos::dsl::*;
-//
-//     let todo = todos.filter(id.eq(1)).limit(5).get_results::<Todo>(&connection.0);
-//     // let results = todos.filter(done.eq(true))
-//     //     .limit(5)
-//     //     .load::<Todo>(&connection)
-//     //     .expect("Error loading posts");
-//
-//     // println!("{:?}", todo);
-//     "Hello world"
-// }
-//
-// #[catch(503)]
-// fn service_not_available(_req: &Request) -> &'static str {
-//     "Service is not available. (Is the database up?)"
-// }
-//
-// fn main() {
-//     rocket::ignite()
-//         .attach(TodosDbConn::fairing())
-//         .register(catchers![service_not_available])
-//         .mount("/api", routes![get_todos])
-//         .launch();
-// }
